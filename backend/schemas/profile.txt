@@ -1,0 +1,9 @@
+CREATE TABLE public.profiles (
+    user_id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    address TEXT,
+    city TEXT,
+    postcode TEXT,
+    phone TEXT
+);
