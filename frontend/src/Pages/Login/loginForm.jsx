@@ -19,10 +19,6 @@ function LoginForm() {
         },
         body: JSON.stringify({ email, password }), 
     });
-
-    // const {data,error} = await supabase.auth.signInWithPassword({
-    //   email,password
-    // });
     if(error){
       setError(error.message)
     }else{

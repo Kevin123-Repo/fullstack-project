@@ -51,7 +51,10 @@ exports.login = async (req, res) => {
 
   res.cookie('sb-access-token', data.session.access_token,{
     httpOnly:true,
-    sameSite:'Strict'
+    sameSite:'None',
+    secure:false,
+    path:'/',
+    domain:localhost
   });
   res.status(200).json({ user: data.user, session: data.session });
   console.log(data.session.access_token)

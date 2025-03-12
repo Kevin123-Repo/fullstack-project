@@ -6,7 +6,7 @@ import Home from "./Pages/Homepage/home";
 // import FooterBar from "./Pages/Homepage/FooterBar";
 import Login from "./Pages/Login/login";
 import "./App.css"
-// import Dashboard from "./Pages/Dashboard/dashboard";
+import Dashboard from "./Pages/Dashboard/dashboard";
 // import RegisterForm from "./Pages/Login/registerForm"
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         {/* <Route path="/ecommerce" element={<ECommerce />} /> */}
         <Route path="/Login" element={<Login />} />
-        {/* <Route path="/Dashboard" element={<Dashboard />} /> */}
+        <Route path="/Dashboard" element={<Dashboard />} />
         {/* <Route path="/Register" element={<RegisterForm/>}/> */}
       </Routes>
       {/* <FooterBar color="light" light expand="md" className="fixed-bottom" /> */}
