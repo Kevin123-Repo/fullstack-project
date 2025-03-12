@@ -33,7 +33,7 @@ exports.signup = async (req, res) => {
     }
 
     // Return successful response with user and profile data
-    res.status(201).json({
+    res.status(200).json({
       user,
       message: "User created successfully and profile saved"
     });
@@ -49,5 +49,44 @@ exports.login = async (req, res) => {
 
   if (error) return res.status(400).json({ error: error.message });
 
+  res.cookie('sb-access-token', data.session.access_token,{
+    httpOnly:true,
+    sameSite:'Strict'
+  });
   res.status(200).json({ user: data.user, session: data.session });
+  console.log(data.session.access_token)
 };
+
+//LOGOUT
+exports.logout = async (req,res) => {
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    return res.status(400).json({ error: error.message });
+  }
+
+  res.clearCookie('sb-access-token'); 
+  res.status(200).json({ message: 'Logged out successfully' });
+};
+
+//getSession
+exports.session = async(req,res)=>{
+  try {
+    const { data, error } = await supabase.auth.getSession();
+
+    if (error) {
+      return res.status(400).json({ error: error.message });
+    }
+
+    if (data.session) {
+      res.status(200).json({ user: data.session.user });
+    } else {
+      res.status(404).json({ message: "No active session" });
+    }
+  } catch (err) {
+    console.error("Error fetching session:", err);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+
+
+}
