@@ -1,6 +1,8 @@
 import {Link}  from "react-router-dom"
 
 function HeaderBar() {
+
+    
     return(
         <div className="App">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -22,7 +24,7 @@ function HeaderBar() {
               </li>
             </ul>
             <ul className="navbar-nav ms-auto">
-              {user ? (
+              {/* {user ? (
                 <>
                   <li className="nav-item">
                     <Link className="nav-link" to="/dashboard">
@@ -41,7 +43,7 @@ function HeaderBar() {
                     Login
                   </Link>
                 </li>
-              )}
+              )} */}
             </ul>
           </div>
         </div>

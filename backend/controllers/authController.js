@@ -1,5 +1,5 @@
 const supabase = require('../config/supabaseClient');
-
+const jwt = require('jsonwebtoken')
 //SIGNUP
 exports.signup = async (req, res) => {
   const { email, password, firstName, lastName, address, city, postcode } = req.body;
@@ -71,22 +71,35 @@ exports.logout = async (req,res) => {
   res.status(200).json({ message: 'Logged out successfully' });
 };
 
-//getSession
+//getSession checks to display login or logout
 exports.session = async(req,res)=>{
+  const token = req.cookies['sb-access-token'];
   try {
-    const { data, error } = await supabase.auth.getSession();
+    const token = req.cookies["sb-access-token"]; // Get token from cookies
 
-    if (error) {
-      return res.status(400).json({ error: error.message });
+    if (!token) {
+      return res.status(200).json({ isAuthenticated: false, user: null });
     }
 
-    if (data.session) {
-      res.status(200).json({ user: data.session.user });
-    } else {
-      res.status(404).json({ message: "No active session" });
+    // Verify JWT token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+      console.log("JWT Verification Error:", error.message);
+      return res.status(200).json({ isAuthenticated: false, user: null });
     }
+
+    // Fetch user session from Supabase
+    const { data, error } = await supabase.auth.getUser(token);
+
+    if (error || !data.user) {
+      return res.status(200).json({ isAuthenticated: false, user: null });
+    }
+
+    res.status(200).json({ isAuthenticated: true, user: true  });
   } catch (err) {
-    console.error("Error fetching session:", err);
+    console.error("Internal Server Error:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 
