@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Homepage/home";
 // import ECommerce from "./Pages/Ecommerce/Ecommerce";
-// import HeaderBar from "./Pages/Homepage/HeaderBar";
+import HeaderBar from "./Pages/Homepage/HeaderBar";
 // import FooterBar from "./Pages/Homepage/FooterBar";
 import Login from "./Pages/Login/login";
 import "./App.css"
@@ -12,7 +12,7 @@ import Dashboard from "./Pages/Dashboard/dashboard";
 function App() {
   return (
     <Router>
-      {/* <HeaderBar /> */}
+      <HeaderBar />
       <Routes>
         <Route path="/" element={<Home />} />
         {/* <Route path="/ecommerce" element={<ECommerce />} /> */}
