@@ -12,10 +12,11 @@ function Dashboard() {
       try {
         const response = await fetch("http://localhost:3030/profile/user", {
           method: "GET",
+          credentials:'include',
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true
+          
         });
   
         if (!response.ok) {

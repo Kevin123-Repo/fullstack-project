@@ -51,13 +51,12 @@ exports.login = async (req, res) => {
 
   res.cookie('sb-access-token', data.session.access_token,{
     httpOnly:true,
-    sameSite:'None',
+    //sameSite:'None', //This needs to be commented out while localhost is http when https it can be uncommented
     secure:false,
     path:'/',
-    domain:localhost
   });
-  res.status(200).json({ user: data.user, session: data.session });
-  console.log(data.session.access_token)
+  res.status(200).json({ message: "Login successful" });
+  
 };
 
 //LOGOUT

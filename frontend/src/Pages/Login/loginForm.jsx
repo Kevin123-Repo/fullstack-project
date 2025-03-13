@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { supabase } from '../dbConnections/supabaseClient';
-
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -11,21 +9,32 @@ function LoginForm() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setError('')
-    const {data,error} = await fetch('http://localhost:3030/auth/login', {
-        method: 'POST', 
+    setError('');
+    
+    try {
+      const response = await fetch('http://localhost:3030/auth/login', {
+        method: 'POST',
+        credentials: 'include', // Ensure cookies are sent
         headers: {
-            'Content-Type': 'application/json', 
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email, password }), 
-    });
-    if(error){
-      setError(error.message)
-    }else{
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Login failed');
+      }
+
+      const result = await response.json();
+      console.log(result);
+
+      // Redirect to dashboard after successful login
+      navigate('/dashboard');
       
-      navigate('/dashboard')
+    } catch (error) {
+      setError(error.message);
     }
-  
   };
 
   return (
