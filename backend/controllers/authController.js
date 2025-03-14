@@ -106,8 +106,10 @@ exports.session = async (req, res) => {
     } else {
       res.status(404).json({ message: "No active session" });
     }
+
+    res.status(200).json({ isAuthenticated: true, user: true  });
   } catch (err) {
-    console.error("Error fetching session:", err);
+    console.error("Internal Server Error:", err);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

@@ -77,7 +77,7 @@ function HeaderBar() {
                     Login
                   </Link>
                 </li>
-              )}
+              )} */}
             </ul>
           </div>
         </div>
