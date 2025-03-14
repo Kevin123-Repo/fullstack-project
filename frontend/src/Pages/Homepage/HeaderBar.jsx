@@ -1,6 +1,41 @@
-import {Link}  from "react-router-dom"
+import {Link, useNavigate}  from "react-router-dom"
+import React, { useEffect, useState } from "react";
 
 function HeaderBar() {
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+  
+    useEffect(() => {
+        const fetchSession = async () => {
+          const response = await fetch('http://localhost:3030/auth/session',{
+            method:'GET',
+            credentials:'include',
+            headers: {
+                'Content-Type': 'application/json',
+              }
+          })
+          const data = await response.json()
+          if (!response.ok) {
+            console.error("Error fetching session:", data.status);
+          } else if (data) {
+            console.log('Session: ')
+            console.log(data)
+            setUser(data);
+          }
+        };
+    
+        fetchSession();
+      }, []);
+    
+      const handleLogout = async () => {
+        await fetch('http://localhost:3030/auth/logout',{
+            method:'POST',
+            credentials:'include'
+        });
+        setUser(null);
+        navigate("/login");
+      };
+
     return(
         <div className="App">
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -23,6 +58,7 @@ function HeaderBar() {
             </ul>
             <ul className="navbar-nav ms-auto">
               {user ? (
+                //User returns true
                 <>
                   <li className="nav-item">
                     <Link className="nav-link" to="/dashboard">
@@ -35,7 +71,7 @@ function HeaderBar() {
                     </button>
                   </li>
                 </>
-              ) : (
+              ) : (//User returns false
                 <li className="nav-item">
                   <Link className="nav-link" to="/login">
                     Login
